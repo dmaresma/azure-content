@@ -146,6 +146,7 @@ In this tutorial, you will use PowerShell to make a web service call. The other 
 		$oauth_nonce = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes([System.DateTime]::Now.Ticks.ToString()));
 		$ts = [System.DateTime]::UtcNow - [System.DateTime]::ParseExact("01/01/1970", "dd/MM/yyyy", $null)
 		$oauth_timestamp = [System.Convert]::ToInt64($ts.TotalSeconds).ToString();
+		$track = [System.Uri]::EscapeDataString($trackString);
 		
 		$signature = "POST&";
 		$signature += [System.Uri]::EscapeDataString("https://stream.twitter.com/1.1/statuses/filter.json") + "&";
@@ -172,7 +173,6 @@ In this tutorial, you will use PowerShell to make a web service call. The other 
 		$oauth_authorization += 'oauth_token="' + [System.Uri]::EscapeDataString($oauth_token) + '",';
 		$oauth_authorization += 'oauth_version="1.0"';
 		
-		$track = [System.Uri]::EscapeDataString($trackString);
 		$post_body = [System.Text.Encoding]::ASCII.GetBytes("track=" + $track); 
 				
 		Write-Host "Create HTTP web request ..." -ForegroundColor Green
